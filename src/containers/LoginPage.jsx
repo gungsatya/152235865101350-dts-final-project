@@ -29,7 +29,7 @@ export default function LoginPage() {
   async function _login(email, password) {
     const response = await loginUserWithEmailPassword(email, password);
     if (response.status) {
-      navigate("/profiles");
+      navigate("/");
     } else {
       setLoginError(response.error.code);
     }
@@ -38,7 +38,7 @@ export default function LoginPage() {
   async function _loginWithGoogle() {
     const response = await loginWithGoogle();
     if (response.status) {
-      navigate("/profiles");
+      navigate("/");
     } else {
       setLoginError(response.error.code);
     }
@@ -47,7 +47,7 @@ export default function LoginPage() {
   async function _loginWithGithub() {
     const response = await loginWithGithub();
     if (response.status) {
-      navigate("/profiles");
+      navigate("/");
     } else {
       setLoginError(response.error.code);
     }

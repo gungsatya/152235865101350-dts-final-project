@@ -1,10 +1,10 @@
-import HeroItem from "../components/HeroItem";
+import Apod from "../components/Apod";
 import HeaderFooter from "../components/templates/HeaderFooter";
 
 export default function DashboardPage() {
   return (
     <HeaderFooter>
-      <HeroItem />
+      <Apod />
     </HeaderFooter>
   );
 }

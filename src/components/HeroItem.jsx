@@ -1,13 +1,12 @@
-import { Box, Button, styled, Typography } from "@mui/material";
+import { Box, Button, Modal, styled, Typography } from "@mui/material";
+import Image from "mui-image";
+import { useState } from "react";
 
 const Content = styled(Box)(({ theme }) => ({
   position: "relative",
   display: "flex",
-  height: "100vh",
-  marginBottom: theme.spacing(5),
-  [theme.breakpoints.up("xl")]: {
-    height: "65vh",
-  },
+  width: "100%",
+  height: "100%",
 }));
 
 const Background = styled(Box)(({ theme }) => ({
@@ -58,66 +57,113 @@ const Area = styled(Box)(({ theme }) => ({
   overflowY: "hidden",
 }));
 const AreaContainer = styled(Box)(({ theme }) => ({
-  padding: "40px 70px",
+  padding: "0 70px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "start",
+  justifyContent: "center",
+  height: "100%",
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
   fontWeight: "700",
+  maxWidth: "35%",
 }));
 const Subtitle = styled(Typography)(({ theme }) => ({
   fontWeight: "300",
+  maxWidth: "35%",
 }));
 const Overview = styled(Typography)(({ theme }) => ({
-  maxWidth: "500px",
+  maxWidth: "35%",
   marginTop: "30px",
 }));
 
 const Detail = styled(Button)(({ theme }) => ({
   marginTop: "30px",
+  maxWidth: "fit-content",
 }));
 
-export default function HeroItem() {
-  // function goDetailPage() {
-  // navigate(`/src/${type}/detail/${id}`);
-  // }
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "fit-content",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+export default function HeroItem({ item }) {
+  const { title, explanation, url, copyright, media_type } = item;
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
-    <Content>
-      <Background>
-        <BackgroundShadow />
-        <BackgroundImage
-          sx={{
-            backgroundImage: `url(https://apod.nasa.gov/apod/image/2207/FindTheMoon_soltanolkotabi_1500.jpg
-)`,
-          }}
-        />
-      </Background>
-      <Area>
-        <AreaContainer>
-          <Title variant="h3">Find the New Moon</Title>
-          <Subtitle variant="subtitle1">Astronomy Picture of the Day</Subtitle>
-          <Overview variant="body1" align="left" gutterBottom paragraph>
-            Can you find the Moon? This usually simple task can be quite
-            difficult. Even though the Moon is above your horizon half of the
-            time, its phase can be anything from crescent to full. The featured
-            image was taken in late May from Sant Martí d'Empúries, Spain, over
-            the Mediterranean Sea in the early morning. One reason you can't
-            find this moon is because it is very near to its new phase, when
-            very little of the half illuminated by the Sun is visible to the
-            Earth. Another reason is because this moon is near the horizon and
-            so seen through a long path of Earth's atmosphere -- a path which
-            dims the already faint crescent. Any crescent moon is only visible
-            near the direction the Sun, and so only locatable near sunrise of
-            sunset. The Moon runs through all of its phases in a month
-            (moon-th), and this month the thinnest sliver of a crescent -- a new
-            moon -- will occur in three days.
-          </Overview>
-          <Typography variant="subtitle2" gutterBottom>
-            By Mohamad Soltanolkotabi
-          </Typography>
-          <Detail variant="outlined">See Detail</Detail>
-        </AreaContainer>
-      </Area>
-    </Content>
+    <>
+      <Content>
+        <Background>
+          <BackgroundShadow />
+          {media_type === "image" && (
+            <BackgroundImage
+              sx={{
+                backgroundImage: `url(${url})`,
+              }}
+            />
+          )}
+          {media_type === "video" && (
+            <BackgroundImage
+              height="100%"
+              width="100%"
+              component="iframe"
+              frameborder="0"
+              src={`${url}&autoplay=1&controls=0&showinfo=0&autohide=1`}
+            />
+          )}
+        </Background>
+        <Area>
+          <AreaContainer>
+            <Title variant="h4">{title}</Title>
+            <Subtitle variant="subtitle2">
+              Astronomy Picture of the Day
+            </Subtitle>
+            <Overview variant="body2" align="left" gutterBottom paragraph>
+              {explanation}
+            </Overview>
+            {copyright && (
+              <Typography variant="subtitle2" gutterBottom>
+                By {copyright}
+              </Typography>
+            )}
+            <Detail variant="outlined" onClick={handleOpen}>
+              See Detail
+            </Detail>
+          </AreaContainer>
+        </Area>
+      </Content>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby={title}
+        aria-describedby="Astronomy Picture of the Day"
+      >
+        <Box sx={style}>
+          {media_type === "image" && (
+            <Image src={url} sx={{ maxHeight: "75vh" }} />
+          )}
+          {media_type === "video" && (
+            <Box
+              component="iframe"
+              alt="Youtube Video"
+              src={url}
+              sx={{ height: "75vh", width: "80vw" }}
+            />
+          )}
+        </Box>
+      </Modal>
+    </>
   );
 }
