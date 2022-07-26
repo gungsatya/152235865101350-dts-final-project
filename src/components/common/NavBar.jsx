@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -58,10 +58,6 @@ export default function NavBar() {
     await logoutUser();
     navigate("/login");
   };
-
-  useEffect(() => {
-    console.log(user?.providerData);
-  }, [user]);
 
   return (
     <AppBar position="static" color="primary">
