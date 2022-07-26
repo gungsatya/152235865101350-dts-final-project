@@ -14,7 +14,7 @@ export default function HeaderFooter(props) {
       }}
     >
       <NavBar />
-      <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="xl">
+      <Container component="main" sx={{ mt: 8, mb: 8 }} maxWidth="xl">
         {children}
       </Container>
       <Footer />

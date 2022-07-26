@@ -11,15 +11,27 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-const pages = ["Dashboard", "My Place"];
-const settings = ["Logout"];
+import { auth, logoutUser } from "../../authentication/firebase.js";
+import { NavLink, useNavigate } from "react-router-dom";
+
+const pages = [
+  { text: "Dashboard", path: "/" },
+  { text: "My Place", path: "my-place" },
+  { text: "ISS Location", path: "iss-location-now" },
+];
 
 export default function NavBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const navigate = useNavigate();
+
+  const [user] = useAuthState(auth);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,6 +47,21 @@ export default function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogin = () => {
+    handleCloseUserMenu();
+    navigate("/login");
+  };
+
+  const handleLogout = async () => {
+    handleCloseUserMenu();
+    await logoutUser();
+    navigate("/login");
+  };
+
+  useEffect(() => {
+    console.log(user?.providerData);
+  }, [user]);
 
   return (
     <AppBar position="static" color="primary">
@@ -69,9 +96,14 @@ export default function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map((page, idx) => (
+                <MenuItem
+                  key={idx}
+                  onClick={handleCloseNavMenu}
+                  component={NavLink}
+                  to={page.path}
+                >
+                  <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -91,9 +123,11 @@ export default function NavBar() {
             />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, idx) => (
               <Button
-                key={page}
+                component={NavLink}
+                key={idx}
+                to={page.path}
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
@@ -102,15 +136,21 @@ export default function NavBar() {
                   textTransform: "capitalize",
                 }}
               >
-                {page}
+                {page.text}
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title={user?.displayName ?? user?.email ?? "Profile"}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {!user && <AccountCircleIcon />}
+                {user && (
+                  <Avatar
+                    alt={user?.displayName ?? user?.email}
+                    src={user?.photoURL}
+                  />
+                )}
               </IconButton>
             </Tooltip>
             <Menu
@@ -129,11 +169,16 @@ export default function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {!user && (
+                <MenuItem onClick={handleLogin}>
+                  <Typography textAlign="center">Login</Typography>
                 </MenuItem>
-              ))}
+              )}
+              {user && (
+                <MenuItem onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>

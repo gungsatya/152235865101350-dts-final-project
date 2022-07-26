@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import HeroItem from "../components/HeroItem";
 import HeaderFooter from "../components/templates/HeaderFooter";
 
