@@ -21,7 +21,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const pages = [
   { text: "Dashboard", path: "/" },
-  { text: "Image and Video", path: "/my-place" },
+  { text: "Galery Nasa", path: "/galery-nasa" },
   { text: "Live ISS Location", path: "/iss-location-now" },
 ];
 

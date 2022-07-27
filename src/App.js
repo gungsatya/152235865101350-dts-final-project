@@ -5,6 +5,7 @@ import UnProtectedAuth from "./components/functionals/UnProtectedAuth";
 import RegisterPage from "./containers/RegisterPage";
 import ProtectedAuth from "./components/functionals/ProtectedAuth";
 import ISSLocation from "./containers/ISSLocationPage";
+import GaleryNasaPage from "./containers/GaleryNasaPage";
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
             <UnProtectedAuth>
               <RegisterPage />
             </UnProtectedAuth>
+          }
+        />
+        <Route
+          path="/galery-nasa"
+          element={
+            <ProtectedAuth>
+              <GaleryNasaPage />
+            </ProtectedAuth>
           }
         />
         <Route
