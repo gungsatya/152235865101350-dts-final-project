@@ -1,6 +1,6 @@
 import { Button, Grid, Stack, styled, alpha } from "@mui/material";
 import LoginOrRegister from "../components/LoginOrRegister";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
@@ -23,32 +23,25 @@ const StyledButton = styled(Button)({
 });
 
 export default function LoginPage() {
-  const navigate = useNavigate();
   const [loginError, setLoginError] = useState(null);
 
   async function _login(email, password) {
     const response = await loginUserWithEmailPassword(email, password);
-    if (response.status) {
-      navigate("/");
-    } else {
+    if (!response.status) {
       setLoginError(response.error.code);
     }
   }
 
   async function _loginWithGoogle() {
     const response = await loginWithGoogle();
-    if (response.status) {
-      navigate("/");
-    } else {
+    if (!response.status) {
       setLoginError(response.error.code);
     }
   }
 
   async function _loginWithGithub() {
     const response = await loginWithGithub();
-    if (response.status) {
-      navigate("/");
-    } else {
+    if (!response.status) {
       setLoginError(response.error.code);
     }
   }

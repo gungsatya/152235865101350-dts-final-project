@@ -56,7 +56,7 @@ export default function NavBar() {
   const handleLogout = async () => {
     handleCloseUserMenu();
     await logoutUser();
-    navigate("/login");
+    navigate("/");
   };
 
   return (

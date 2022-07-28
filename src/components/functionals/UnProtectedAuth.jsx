@@ -1,19 +1,12 @@
-import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { auth } from "../../authentication/firebase.js";
 
 export default function UnProtectedAuth({ children }) {
-  const [user, isLoading] = useAuthState(auth);
-  const navigate = useNavigate();
+  const [user] = useAuthState(auth);
+  const [queryStrings] = useSearchParams();
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-      return;
-    }
-  }, [user, navigate]);
+  const goto = queryStrings.get("goto") ?? "/";
 
-  if (isLoading) return;
-  else return children;
+  return user ? <Navigate to={goto} /> : children;
 }
