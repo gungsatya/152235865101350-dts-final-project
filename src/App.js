@@ -7,10 +7,11 @@ import ProtectedAuth from "./components/functionals/ProtectedAuth";
 import ISSLocation from "./containers/ISSLocationPage";
 import GaleryNasaPage from "./containers/GaleryNasaPage";
 import GaleryNasaDetailPage from "./containers/GaleryNasaDetailPage";
+import ScrollToTop from "./components/functionals/ScrollToTop";
 
 function App() {
   return (
-    <>
+    <ScrollToTop>
       <Routes>
         <Route path="/" element={<DashboardPage />} />
         <Route
@@ -54,7 +55,7 @@ function App() {
           }
         />
       </Routes>
-    </>
+    </ScrollToTop>
   );
 }
 
