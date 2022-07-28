@@ -96,6 +96,10 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
+// const WrapperImage = forwardRef((props, ref) => {
+//   return <Image {...props} ref={ref} />;
+// });
+
 export default function GaleryNasaPage() {
   function yearRangeFn() {
     const min = 1920;
@@ -294,15 +298,17 @@ export default function GaleryNasaPage() {
                       <Card key={index}>
                         <CardActionArea>
                           <Tooltip title={item.data[0].title}>
-                            <Image
-                              showLoading
-                              src={
-                                item.data[0].media_type !== "audio"
-                                  ? item.links[0].href
-                                  : "/assets/images/play-button.png"
-                              }
-                              alt={item.data[0].title}
-                            />
+                            <Box>
+                              <Image
+                                showLoading
+                                src={
+                                  item.data[0].media_type !== "audio"
+                                    ? item.links[0].href
+                                    : "/assets/images/play-button.png"
+                                }
+                                alt={item.data[0].title}
+                              />
+                            </Box>
                           </Tooltip>
                         </CardActionArea>
                       </Card>
