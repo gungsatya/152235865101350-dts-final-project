@@ -26,6 +26,9 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Image from "mui-image";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setGaleryDetail } from "../features/galeryNasa/galeryNasaSlice.js";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -95,11 +98,9 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-// const WrapperImage = forwardRef((props, ref) => {
-//   return <Image {...props} ref={ref} />;
-// });
-
 export default function GaleryNasaPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   function yearRangeFn() {
     const min = 1920;
     const max = new Date().getFullYear();
@@ -194,6 +195,11 @@ export default function GaleryNasaPage() {
     setPage(newPageVal);
     setSkip(false);
     console.log(newPageVal);
+  }
+
+  function goDetail(item) {
+    dispatch(setGaleryDetail({ itemDetail: item }));
+    navigate(`/galery-nasa/detail`);
   }
 
   return (
@@ -295,7 +301,7 @@ export default function GaleryNasaPage() {
                   <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
                     {data?.collection?.items?.map((item, index) => (
                       <Card key={index}>
-                        <CardActionArea>
+                        <CardActionArea onClick={() => goDetail(item)}>
                           <Image
                             showLoading
                             src={

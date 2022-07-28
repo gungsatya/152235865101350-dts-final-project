@@ -49,4 +49,8 @@ export const nasaApi = createApi({
   }),
 });
 
-export const { useGetAPODQuery, useGetImageSearchQuery } = nasaApi;
+export const {
+  useGetAPODQuery,
+  useGetImageSearchQuery,
+  useGetImageAssetByIDQuery,
+} = nasaApi;

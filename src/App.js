@@ -6,6 +6,7 @@ import RegisterPage from "./containers/RegisterPage";
 import ProtectedAuth from "./components/functionals/ProtectedAuth";
 import ISSLocation from "./containers/ISSLocationPage";
 import GaleryNasaPage from "./containers/GaleryNasaPage";
+import GaleryNasaDetailPage from "./containers/GaleryNasaDetailPage";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
           element={
             <ProtectedAuth>
               <GaleryNasaPage />
+            </ProtectedAuth>
+          }
+        />
+        <Route
+          path="/galery-nasa/detail"
+          element={
+            <ProtectedAuth>
+              <GaleryNasaDetailPage />
             </ProtectedAuth>
           }
         />
