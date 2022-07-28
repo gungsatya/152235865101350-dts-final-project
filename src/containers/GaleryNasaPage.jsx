@@ -14,7 +14,6 @@ import {
   Slider,
   Stack,
   styled,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -297,19 +296,36 @@ export default function GaleryNasaPage() {
                     {data?.collection?.items?.map((item, index) => (
                       <Card key={index}>
                         <CardActionArea>
-                          <Tooltip title={item.data[0].title}>
-                            <Box>
-                              <Image
-                                showLoading
-                                src={
-                                  item.data[0].media_type !== "audio"
-                                    ? item.links[0].href
-                                    : "/assets/images/play-button.png"
-                                }
-                                alt={item.data[0].title}
-                              />
-                            </Box>
-                          </Tooltip>
+                          <Image
+                            showLoading
+                            src={
+                              item.data[0].media_type !== "audio"
+                                ? item.links[0].href
+                                : "/assets/images/play-button.png"
+                            }
+                            alt={item.data[0].title}
+                          />
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              bottom: 0,
+                              left: 0,
+                              width: "100%",
+                              bgcolor: "rgba(0, 0, 0, 0.54)",
+                              color: "white",
+                              padding: "10px",
+                            }}
+                          >
+                            <Typography variant="subtitle2">
+                              {item.data[0].title}
+                            </Typography>
+                            <Typography
+                              variant="caption"
+                              sx={{ color: "#808080" }}
+                            >
+                              {item.data[0].media_type}
+                            </Typography>
+                          </Box>
                         </CardActionArea>
                       </Card>
                     ))}
