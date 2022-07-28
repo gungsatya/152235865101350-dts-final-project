@@ -11,11 +11,11 @@ const SatelliteIcon = L.icon({
   popupAnchor: [50, 25],
 });
 
-export default function ISSMarker({ data, astronotData }) {
+export default function ISSMarker({ data, velocity }) {
   const [lat, lng] = data;
   const [prevPos, setPrevPos] = useState([lat, lng]);
 
-  const { number, people } = astronotData;
+  const { value, units } = velocity;
 
   useEffect(() => {
     if (prevPos[1] !== lng && prevPos[0] !== lat) setPrevPos([lat, lng]);
@@ -30,14 +30,7 @@ export default function ISSMarker({ data, astronotData }) {
       keepAtCenter={true}
     >
       <Popup>
-        <Typography variant="caption">{`There are currently ${number} humans in space. They are:`}</Typography>
-        <ul>
-          {people.map((person, idx) => (
-            <Typography component="li" variant="caption" key={idx}>
-              {person.name}
-            </Typography>
-          ))}
-        </ul>
+        <Typography variant="caption">{`ISS current speed ${value} / ${units} `}</Typography>
       </Popup>
     </LeafletTrackingMarker>
   );
