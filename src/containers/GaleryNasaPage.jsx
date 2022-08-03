@@ -136,7 +136,7 @@ export default function GaleryNasaPage() {
 
   const [skip, setSkip] = useState(false);
 
-  const { data, isLoading } = useGetImageSearchQuery(
+  const { data, isLoading, isFetching } = useGetImageSearchQuery(
     {
       params: {
         q: keyword,
@@ -294,10 +294,10 @@ export default function GaleryNasaPage() {
                   </form>
                 </Search>
                 <Divider />
-                {isLoading && (
+                {(isLoading || isFetching) && (
                   <Typography variant="h6">Loading .... </Typography>
                 )}
-                {data && !isLoading && (
+                {data && !isLoading && !isFetching && (
                   <Masonry columns={{ xs: 1, sm: 2, md: 3 }} spacing={2}>
                     {data?.collection?.items?.map((item, index) => (
                       <Card key={index}>
